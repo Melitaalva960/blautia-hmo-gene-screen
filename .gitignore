@@ -1,0 +1,17 @@
+# Large data and outputs: never commit these
+data/genomes/*
+!data/genomes/README.md
+results/
+.snakemake/
+*.dmnd
+*.fna
+*.fa
+*.fasta
+
+# Python / R / OS
+__pycache__/
+*.pyc
+.pytest_cache/
+.Rhistory
+.RData
+.DS_Store
