@@ -1,0 +1,20 @@
+# ---- Inputs ----
+genome_dir: data/genomes          # one FASTA file per genome
+genome_ext: .fna                  # file extension of the genome FASTA files
+panel_faa: data/panel/hmo_panel.faa   # protein sequences of the marker gene panel
+outdir: results
+
+# ---- Genome QC (CheckM2) and taxonomy (GTDB-Tk) ----
+run_qc: true                      # set to false for a quick test without the big databases
+checkm2_db: /path/to/CheckM2_database/uniref100.KO.1.dmnd
+gtdbtk_db: /path/to/gtdbtk_r220_data
+min_completeness: 90              # keep genomes with completeness > 90%
+max_contamination: 5              # and contamination < 5%
+
+# ---- Homology filters (thesis values) ----
+max_evalue: 1.0e-5
+min_identity: 30                  # percent identity
+min_coverage: 70                  # percent query coverage
+
+# ---- Figures ----
+top_n_species: 20

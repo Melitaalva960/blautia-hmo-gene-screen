@@ -1,0 +1,11 @@
+# Main environment: runs Snakemake, which creates the per-step environments in workflow/envs/
+# Create with:  conda env create -f environment.yml && conda activate blautia-screen
+name: blautia-screen
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - snakemake=8
+  - pandas=2.2
+  - pytest

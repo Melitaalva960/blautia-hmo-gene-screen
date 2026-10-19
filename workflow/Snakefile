@@ -1,0 +1,175 @@
+# Blautia HMO / FOS / GOS gene screen
+#
+# genomes (FASTA) -> CheckM2 QC -> GTDB-Tk taxonomy
+#                 -> tBLASTn of a protein gene panel -> filter best hits
+#                 -> presence/absence matrix + core/accessory/rare tiers -> heatmaps
+#
+# Run:  snakemake --cores 8 --use-conda
+# Quick test without QC/taxonomy (no big databases needed):
+#       snakemake --cores 4 --use-conda --config run_qc=False
+
+import os
+from pathlib import Path
+
+configfile: "config/config.yaml"
+
+GENOME_DIR = config["genome_dir"]
+EXT = config["genome_ext"]
+OUT = config["outdir"]
+PANEL = config["panel_faa"]
+RUN_QC = config.get("run_qc", True)
+
+ALL_GENOMES = sorted(Path(f).name[: -len(EXT)]
+                     for f in os.listdir(GENOME_DIR) if f.endswith(EXT))
+if not ALL_GENOMES:
+    raise ValueError(f"No *{EXT} files found in {GENOME_DIR}")
+
+
+rule all:
+    input:
+        f"{OUT}/matrix/presence_absence.tsv",
+        f"{OUT}/matrix/gene_tiers.tsv",
+        f"{OUT}/figures/heatmap_genomes.png",
+        f"{OUT}/figures/heatmap_species.png",
+
+
+# ---------- 1. Genome quality control ----------
+rule checkm2:
+    input:
+        expand(f"{GENOME_DIR}/{{g}}{EXT}", g=ALL_GENOMES),
+    output:
+        f"{OUT}/qc/checkm2/quality_report.tsv",
+    params:
+        db=config["checkm2_db"], outdir=f"{OUT}/qc/checkm2", ext=EXT,
+    threads: 8
+    conda: "envs/qc.yaml"
+    shell:
+        "checkm2 predict --input {GENOME_DIR} -x {params.ext} "
+        "--output-directory {params.outdir} --database_path {params.db} "
+        "--threads {threads} --force"
+
+
+rule pass_qc:
+    """Keep genomes with completeness > 90% and contamination < 5% (thesis thresholds)."""
+    input:
+        f"{OUT}/qc/checkm2/quality_report.tsv" if RUN_QC else [],
+    output:
+        f"{OUT}/qc/passed_genomes.txt",
+    params:
+        comp=config["min_completeness"], cont=config["max_contamination"],
+        genomes=ALL_GENOMES,
+    run:
+        import pandas as pd
+        if input:
+            q = pd.read_csv(input[0], sep="\t")
+            ok = q[(q.Completeness > params.comp) & (q.Contamination < params.cont)]
+            keep = sorted(ok.Name.astype(str))
+        else:
+            keep = params.genomes
+        Path(output[0]).write_text("\n".join(keep) + "\n")
+
+
+rule gtdbtk:
+    input:
+        f"{OUT}/qc/passed_genomes.txt",
+    output:
+        f"{OUT}/taxonomy/gtdbtk.bac120.summary.tsv",
+    params:
+        outdir=f"{OUT}/taxonomy", ext=EXT,
+        db=config["gtdbtk_db"], batch=f"{OUT}/taxonomy/batchfile.tsv",
+    threads: 8
+    conda: "envs/qc.yaml"
+    shell:
+        "export GTDBTK_DATA_PATH={params.db}; "
+        "awk -v d={GENOME_DIR} -v e={params.ext} '{{print d\"/\"$1 e\"\\t\"$1}}' {input} > {params.batch}; "
+        "gtdbtk classify_wf --batchfile {params.batch} --out_dir {params.outdir} "
+        "--cpus {threads} --skip_ani_screen"
+
+
+# ---------- 2. Homology screen ----------
+rule build_db:
+    """Concatenate passed genomes, prefixing each contig with its genome ID (GENOME|contig)."""
+    input:
+        f"{OUT}/qc/passed_genomes.txt",
+    output:
+        fasta=f"{OUT}/blastdb/genomes.fna",
+        db=f"{OUT}/blastdb/genomes.fna.ndb",
+    conda: "envs/blast.yaml"
+    shell:
+        "while read g; do "
+        "  awk -v g=\"$g\" '/^>/{{sub(/^>/, \">\" g \"|\"); print; next}} {{print}}' "
+        "  {GENOME_DIR}/$g{EXT}; "
+        "done < {input} > {output.fasta}; "
+        "makeblastdb -in {output.fasta} -dbtype nucl > /dev/null"
+
+
+rule tblastn:
+    input:
+        panel=PANEL,
+        db=f"{OUT}/blastdb/genomes.fna.ndb",
+    output:
+        f"{OUT}/blast/raw_hits.tsv",
+    params:
+        db=f"{OUT}/blastdb/genomes.fna", evalue=config["max_evalue"],
+    threads: 8
+    conda: "envs/blast.yaml"
+    shell:
+        "tblastn -query {input.panel} -db {params.db} -evalue {params.evalue} "
+        "-max_target_seqs 100000 -num_threads {threads} "
+        "-outfmt '6 qseqid stitle pident length qlen qstart qend evalue bitscore' "
+        "> {output}"
+
+
+rule filter_hits:
+    input:
+        f"{OUT}/blast/raw_hits.tsv",
+    output:
+        f"{OUT}/blast/best_hits.tsv",
+    params:
+        e=config["max_evalue"], i=config["min_identity"], c=config["min_coverage"],
+    conda: "envs/python.yaml"
+    shell:
+        "python workflow/scripts/filter_hits.py {input} -o {output} "
+        "--max-evalue {params.e} --min-identity {params.i} --min-coverage {params.c}"
+
+
+# ---------- 3. Matrix and figures ----------
+rule panel_gene_list:
+    input:
+        PANEL,
+    output:
+        f"{OUT}/matrix/panel_genes.txt",
+    shell:
+        "grep '^>' {input} | sed 's/^>//; s/ .*//' > {output}"
+
+
+rule matrix:
+    input:
+        hits=f"{OUT}/blast/best_hits.tsv",
+        genomes=f"{OUT}/qc/passed_genomes.txt",
+        genes=f"{OUT}/matrix/panel_genes.txt",
+        tax=f"{OUT}/taxonomy/gtdbtk.bac120.summary.tsv" if RUN_QC else [],
+    output:
+        matrix=f"{OUT}/matrix/presence_absence.tsv",
+        tiers=f"{OUT}/matrix/gene_tiers.tsv",
+    params:
+        tax=lambda wc, input: f"--taxonomy {input.tax}" if input.tax else "",
+    conda: "envs/python.yaml"
+    shell:
+        "python workflow/scripts/build_matrix.py {input.hits} "
+        "--genome-list {input.genomes} --panel-genes {input.genes} {params.tax} "
+        "-o {output.matrix} --tiers {output.tiers}"
+
+
+rule heatmaps:
+    input:
+        f"{OUT}/matrix/presence_absence.tsv",
+    output:
+        genomes=f"{OUT}/figures/heatmap_genomes.png",
+        species=f"{OUT}/figures/heatmap_species.png",
+    params:
+        top=config["top_n_species"],
+    conda: "envs/r.yaml"
+    shell:
+        "Rscript workflow/scripts/plot_heatmap.R {input} {output.genomes} "
+        "{output.species} {params.top}"
