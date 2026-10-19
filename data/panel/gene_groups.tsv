@@ -1,0 +1,25 @@
+group	label	category
+Fucose	RiFuc29_A	Fucosidases
+Fucose	AfcB(2)	Fucosidases
+Fucose	AfcA	Fucosidases
+Fucose	Blon_0248	Fucosidases
+Fucose	Blon_0426	Fucosidases
+Fucose	RiFuc95_C	Fucosidases
+Fucose	RiFuc95_B	Fucosidases
+Fucose	RiFuc29_B	Fucosidases
+Fucose	RiFuc95_A	Fucosidases
+Fucose	FL1-BP(1)	Transporters
+Fucose	FL2-BP(3)	Transporters
+Fucose	FL1-BP(2)	Transporters
+Fucose	FL2-BP(2)	Transporters
+Fucose	FucO	Core genes
+Fucose	TpiA	Core genes
+Fucose	FcsI	Core genes
+Fucose	FucK	Core genes
+Fucose	FcsA	Core genes
+LNT	RhLNBBP	Transporters
+LNT	Bga42A	Core LNT hydrolysis
+LNT	lntA	Core LNT hydrolysis
+LNT	ErLnb136	LNT-to-lac/LNB conversion
+LNT	RhLnb136i	LNT-to-lac/LNB conversion
+LNT	RhLnb136ii	LNT-to-lac/LNB conversion

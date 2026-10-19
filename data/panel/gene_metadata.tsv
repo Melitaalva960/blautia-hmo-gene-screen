@@ -1,0 +1,65 @@
+query	label	pathway
+4C20_1_L-FUCOSE_ISOMERASE_FcsI_(Fucose)	FcsI	Fucose
+4C23_1_L-FUCULOSE_KINASE_FucK_(Fucose)	FucK	Fucose
+4C24_1_L-FUCULOSE_PHOSPHATE_ALDOLASE_FcsA_(Fucose)	FcsA	Fucose
+A0A292G3D5_afcB_(3FL_LNFPII_LNFPIII)	AfcB	LNFPIII
+A0A292G6W1_LnpA1_(LNB/GNB)	LnpA1	LNB/GNB
+B3TLD6_lnbB_(LNT_LNH)	LnbB	LNT
+B7GN40_Blon_0426_(LNFPIII)	Blon_0426	LNFPIII
+B7GN69_Blon_0459_(LNT,LNH,LNTri)	Blon_0459	LNTri
+B7GNA6_FL2-BP(1)_(2FL,3FL,LDFT,LNFPI)	FL2-BP(1)	2FL
+B7GNA7_FL1-BP(2)_(2FL)	FL1-BP(2)	2FL
+B7GNA7_FL2-BP(2)_(2FL,3FL,LDFT,LNFPI)	FL2-BP(2)	2FL
+B7GNA8_FL1-BP(1)_(2FL)	FL1-BP(1)	2FL
+B7GNA8_FL2-BP(3)_(2FL,3FL,LDFT,LNFPI)	FL2-BP(3)	2FL
+B7GNN6_Bga2A_(Lac,LacNAc,LNnT)	Bga2A	LacNAc
+B7GNN7_AfcA_(LNFPIII,3FL)	AfcA	LNFPIII
+B7GNN8_AfcB_(LNFPIII,3FL)	AfcB(2)	LNFPIII
+B7GNQ7_Blon_2355_(LNT,LNH,LNTri)	Blon_2355	LNTri
+B7GPV6_Blon_0732_(LNT,LNH,LNTri)	Blon_0732	LNTri
+B7GTT5_Blon_0248_(LNFPIII)	Blon_0248	LNFPIII
+B7GU26_FL1-BP(3)_(2FL)	FL1-BP(3)	2FL
+B7GUD7_Bga42A_(LNT,LNB)	Bga42A	LNT
+C0FT18_RiGLnbp112_(LNB_lysis)	RiGLnbp112	LNB lysis
+C0FT20_RiFuc95_C_(Lea_Leb_fucosylase)	RiFuc95_C	Lea/Leb fucosylase
+C0FT21_RiFuc95_B_(Lea_Leb_fucosylase)	RiFuc95_B	Lea/Leb fucosylase
+C0FT22_RiFuc95_A_(Lea_Leb_fucosylase)	RiFuc95_A	Lea/Leb fucosylase
+C0FT23_RiFuc29_B_(Lea_Leb_fucosylase)	RiFuc29_B	Lea/Leb fucosylase
+C0FT24_RiFuc29_A_(Lea_Leb_fucosylase)	RiFuc29_A	Lea/Leb fucosylase
+C0FT28_RiLea/bBP_(LNB_Lea_Leb_transporter)	RiLea/bBP	LNB transporter
+C0FT31_RiLea/bii136_(extracellular_lysis_LNFPii_LNDFHi_LNFFHii)	RiLea/bii136	extracellular lysis
+C0FT32_RiLea/bi136_(extracellular_lysis_LNFPii_LNDFHi_LNFFHii)	RiLea/bi136	extracellular lysis
+C0FTX7_RiGH98_(O-glycan_lysis_releasing_bloodgroup_A/B_oligosaccharides)	RiGH98	O-glycan lysis
+CP001095.1_prot_ACJ51653.1_517_lactaldehyde_reductase_FucO_(Fucose)	FucO	Fucose
+CP001095.1_prot_ACJ51751.1_615_N-acetylmannosamine_kinase_NanK_(Sialic_acid)	NanK	Sialic acid
+CP001095.1_prot_ACJ51752.1_616_N-acetylmannosamine-6-phosphate_2-epimerase_NanE_(Sialic_acid)	NanE	Sialic acid
+CP001095.1_prot_ACJ51753.1_617_bacterial_neuraminidase_(Sialic_acid)	neuraminidase	Sialic acid
+CP001095.1_prot_ACJ51981.1_845_glucosamine-6-phosphate_isomerase_NagB_(GlcNAc)	NagB	GlcNAc
+CP001095.1_prot_ACJ52178.1_1042_Triose-phosphate_isomerase_TpiA_(Fucose)	TpiA	Fucose
+CP001095.1_prot_ACJ53098.1_1962_phosphoglucosamine_mutase_GlmM_(GlcNAc)	GlmM	GlcNAc
+CP001095.1_prot_ACJ53406.1_2270_Exo-alpha-sialidase_(Sialic_acid)	sialidase	Sialic acid
+CP001095.1_prot_ACJ53407.1_2271_N-acetylneuraminate_lyase_NanA_(Sialic_acid)	NanA	Sialic acid
+D4QAP3_bbgIII_(LacNAc_LNnT_LNH_Lac)	bbgIII	LacNAc
+D4QAP4_bbhI_(LNTri)	bbhI	LNTri
+E8MF12_NahK_(GlcNAc/GalNAc)	NahK	GlcNAc/GalNAc
+E8MF13_LnpA2_(LNB/GNB)	LnpA2	LNB/GNB
+E8MF13_LnpA_(LNB/GNB)	LnpA	LNB/GNB
+F5HN10_siabb2_(DSLNT,3SL,6SL)	SiaBb2	Sialic acid
+G2T0U7_RhLNBBP_(LNT_transporter)	RhLNBBP	LNT transporter
+G2T0V0_RhLnb136i_(LNT_to_lac/LNB)	RhLnb136i	LNT to lac/LNB
+G2T0V1_RhLnb136ii_(LNT_to_lac/LNB)	RhLnb136ii	LNT to lac/LNB
+G2T0V2_RhGLnbp112_(LNB_lysis)	RhGLnbp112	LNB lysis
+KT954009.1_bnaG_(LNTri_into_Lactose_and_GlcNAc)	bnaG	LNTri
+P0DW93_LnbX_(LNT,LNH,LNFPI,LSTa)	LnbX	LNT
+P0DW94_lnbY_(Chaperone_of_lnbX)	lnbY	LNT
+Q6JV24_afcA_(2FL_LNFPI_3FL_LNFPV)	AfcA(Q6JV24)	LNFPIII
+Q8G3W5_GLBP_(LNB,GNB)	GLBP	LNB
+U2PDT9_ErLnb136_(LNT_to_lac/LNB)	ErLnb136	LNT to lac/LNB
+UCC2003locustag=Bbr0010_LacZ2_(LNnT,Lac)	LacZ2	LNnT
+UCC2003locustag=Bbr0529_lntA_(LNT,LNnT,Lac)	lntA	LNT
+UCC2003locustag=Bbr1552_LacZ6_(LNnT,Lac)	LacZ6	LNnT
+UCC2003locustag=Bbr1554_nahS_(LNnT)	nahS	LNnT
+UCC2003locustag=Bbr1556_NahA_(Lacto-N-triose)	NahA	LNTri
+UCC2003locustag=Bbr1587_lnbP_(LNB)	lnbP	LNB
+lcl|CP001095.1_prot_ACJ51982.1_846_N-acetylglucosamine-6-phosphate_deacetylase_NagA_(GlcNAc)	NagA	GlcNAc
+longumJCM1217locustag=BLLJ1391_BLLJ_1391_(LNTri)	BLLJ_1391	LNTri

@@ -15,6 +15,8 @@ max_contamination: 5              # and contamination < 5%
 max_evalue: 1.0e-5
 min_identity: 30                  # percent identity
 min_coverage: 70                  # percent query coverage
+coverage_method: length           # "length" = alignment length / qlen (thesis); "span" = (qend-qstart+1) / qlen
 
 # ---- Figures ----
 top_n_species: 20
+focus_species: wexlerae           # species for the single-species genome heatmap

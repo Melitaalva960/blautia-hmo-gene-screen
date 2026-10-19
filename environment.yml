@@ -1,4 +1,4 @@
-# Main environment: runs Snakemake, which creates the per-step environments in workflow/envs/
+# Main environment: Snakemake, plus R and the packages used by the scripts in R/.
 # Create with:  conda env create -f environment.yml && conda activate blautia-screen
 name: blautia-screen
 channels:
@@ -7,5 +7,13 @@ channels:
 dependencies:
   - python=3.11
   - snakemake=8
-  - pandas=2.2
-  - pytest
+  - r-base=4.3
+  - r-data.table
+  - r-dplyr
+  - r-tidyr
+  - r-stringr
+  - r-ggplot2
+  - r-pheatmap
+  - r-rcolorbrewer
+  - r-ggtext
+  - r-patchwork
