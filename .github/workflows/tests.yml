@@ -5,12 +5,14 @@ on:
   pull_request:
 
 jobs:
-  pytest:
-    runs-on: ubuntu-latest
+  r-tests:
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - run: pip install pandas pytest
-      - run: pytest -q
+      - name: Install R and packages
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q --no-install-recommends \
+            r-base-core r-cran-data.table r-cran-dplyr r-cran-tidyr r-cran-stringr
+      - name: Run tests
+        run: Rscript tests/test_utils.R
